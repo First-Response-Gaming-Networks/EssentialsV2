@@ -243,7 +243,23 @@ command /invsee [<player>]:
     format slot 45 of player with 
     #format slot 53 of player with book named "&c%arg-1%" with lore " {@H}Health: {@C}%{_health}%%% || {@H}Hearts: {@C}%{_hearts}% || {@H}Hunger: {@C}%{_food}% || {@H}Levels: {@C}%{_exp}%  || {@H}Location: {@C}%{_location}% || {@H}Potion Effects: {@C}%{_potion::*}%" to be unstealable
 
-command /list [<text>]:
+command /report [<player>] <text>:
+  permission: "SCMC.report"
+  permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
+  usage: /report <player> <reason>
+  trigger:
+    if arg-2 is not set:
+      send "&2&lSCMC &8» &cPlease Make Sure You Give A Reason With The Report"
+    if arg-2 is set:
+      if player has not permission "SCMC.report.notify"
+        send "&2&lSCMC &8»&r Thank You &a%player%&r Your Report Has Been Submitted&a!"
+      if player has permission "SCMC.report.notify"
+        loop 20 times:
+          wait 5 seconds
+          broadcast "&2&lSCMC &8» &a%player% Has Submitted A Report On: %arg-1% For Reason: %arg-2%"
+
+
+command /reportGUI:
   trigger:
     set metadata tag "PListGUI" of player to chest inventory with 3 rows named "There is %number of all players% online players!"
     set {_loop} to 0

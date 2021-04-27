@@ -250,3 +250,12 @@ command /list [<text>]:
       set slot {_loop} of metadata tag "PListGUI" of player to skull of {_p} named "&6%loop-player%" with lore "&7World: %{_p}'s world%"
       add 1 to {_loop}
     open (metadata tag "PListGUI" of player) to player
+on inventory click:
+  if name of player's current inventory contains "There is " and " online players!":
+    cancel event
+    event item is player head
+    if player has permission "SCMC.report.view":
+      close player's inventory
+      set {_p} to uncolored name of event item parsed as player
+      set metadata tag "&cReport Gui" of player to chest inventory with 3 rows name "%{_p}%"
+      set slot 4 of metadata tag "&cReport Gui" od player to skull of {_p} name "%&c{_p}%" with lore "&7World: &6%{p}'s world%"

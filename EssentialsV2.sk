@@ -185,11 +185,13 @@ command /unmutechat [<text>]:
             clear {Globalchat}
             broadcast "&2&lSCMC &8» &aChat Has Been Muted By: &a%player%! &fFor Reason: &cNo Reason Given"
 
-command /i [<player>] <item> <integer>:
+command /i [<player>] [<items>] <integer>:
   permission: "SCMC.item"
   permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
   trigger: 
-    if arg-1 is set and arg-2 is set and arg-3 is set:
+    #if arg-1 and arg-2 and arg-3 is set:
+    give arg-3 of arg-2 to arg-1
+    send "&2&lSCMC &8» &rGave &a%arg-1%&r %arg-3% of %arg-2%"
 
 options:
   #Do not change arg-player
@@ -238,7 +240,7 @@ command /invsee [<player>]:
     set {_exp} to level of argument-1
     set {_location} to argument-1's location    
     set {_potion::*} to all of the active potion effects on argument-1
-        format slot 45 of player with 
+    format slot 45 of player with 
     #format slot 53 of player with book named "&c%arg-1%" with lore " {@H}Health: {@C}%{_health}%%% || {@H}Hearts: {@C}%{_hearts}% || {@H}Hunger: {@C}%{_food}% || {@H}Levels: {@C}%{_exp}%  || {@H}Location: {@C}%{_location}% || {@H}Potion Effects: {@C}%{_potion::*}%" to be unstealable
 
 command /list [<text>]:
@@ -253,9 +255,10 @@ command /list [<text>]:
 on inventory click:
   if name of player's current inventory contains "There is " and " online players!":
     cancel event
-    event item is player head
+    event-item is player head
     if player has permission "SCMC.report.view":
       close player's inventory
-      set {_p} to uncolored name of event item parsed as player
-      set metadata tag "&cReport Gui" of player to chest inventory with 3 rows name "%{_p}%"
-      set slot 4 of metadata tag "&cReport Gui" od player to skull of {_p} name "%&c{_p}%" with lore "&7World: &6%{p}'s world%"
+      set {_p} to uncolored name of event-item parsed as player
+      set metadata tag "&cReport Gui" of player to chest inventory with 3 rows named "%{_p}%"
+      set slot 4 of metadata tag "&cReport Gui" of player to skull of {_p} named "&c%{_p}%" with lore "&7World: &6%{p}'s world%"
+      open (metadata tag "&cReport Gui" of player) to player

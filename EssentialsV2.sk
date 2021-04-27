@@ -13,44 +13,44 @@ command /spawn:
         send "&2&lSCMC &8» &aSuccessfully teleported to spawn&a!"
 
 options:
-	noPerms: &2&lSCMC &8» &cYou Do Not Have Permission To Do That!
-	permission: SCMC.fly
-	permissionOther: SCMC.fly.others
-	msgenable: &2&lSCMC &8» &aYour &fFlight mode has been &aenabled!
-	msgenableother: &2&lSCMC &8» &a%arg-1%'s &fFlight mode has been &aenabled!
-	msgdisable: &2&lSCMC &8» &aYour &fFlight mode has been &cdisabled!
-	msgdisableother: &2&lSCMC &8» &a%arg-1%'s &fFlight mode has been &cdisabled!
+  noPerms: &2&lSCMC &8» &cYou Do Not Have Permission To Do That!
+  permission: SCMC.fly
+  permissionOther: SCMC.fly.others
+  msgenable: &2&lSCMC &8» &aYour &fFlight mode has been &aenabled!
+  msgenableother: &2&lSCMC &8» &a%arg-1%'s &fFlight mode has been &aenabled!
+  msgdisable: &2&lSCMC &8» &aYour &fFlight mode has been &cdisabled!
+  msgdisableother: &2&lSCMC &8» &a%arg-1%'s &fFlight mode has been &cdisabled!
 
 command /fly [<player>]:
-	permission: {@permission}
-	permission message: {@noPerms}
-	trigger:
-		if arg 1 is not set:
-			if player's flight mode is false:
-				set player's flight mode to true
-				send "{@msgenable}" to player
-				stop
-			else:
-				set player's flight mode to false
-				send "{@msgdisable}" to player
-				stop
-		else:
-			if player has permission "{@permissionOther}":
-				if arg-1's flight mode is false:
-					set arg-1's flight mode to true
-					send "{@msgenable}" to arg-1
-					send "{@msgenableother}" to player
-					stop
-				else:
-					set arg-1's flight mode to false
-					send "{@msgdisable}" to arg-1
-					send "{@msgdisableother}" to player
-					stop
-			else:
-				send "&fYou don't have the required permission:"
-				send "&f- &afly.others"
-				stop
-					
+  permission: {@permission}
+  permission message: {@noPerms}
+  trigger:
+    if arg 1 is not set:
+      if player's flight mode is false:
+        set player's flight mode to true
+        send "{@msgenable}" to player
+        stop
+      else:
+        set player's flight mode to false
+        send "{@msgdisable}" to player
+        stop
+    else:
+      if player has permission "{@permissionOther}":
+        if arg-1's flight mode is false:
+          set arg-1's flight mode to true
+          send "{@msgenable}" to arg-1
+          send "{@msgenableother}" to player
+          stop
+        else:
+          set arg-1's flight mode to false
+          send "{@msgdisable}" to arg-1
+          send "{@msgdisableother}" to player
+          stop
+      else:
+        send "&fYou don't have the required permission:"
+        send "&f- &afly.others"
+        stop
+          
 command /broadcast [<text>]:
     permission: "SCMC.broadcast"
     permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
@@ -81,7 +81,7 @@ command /sethome [<text>]:
         if {home.1::%player's uuid%} is not set:
             set {home.1::%player's uuid%} to location of block at location
             set {home.1::%player's uuid%} to arg-1 
-			
+      
 command /home [<text>]:
     permission: "SCMC.home"
     permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
@@ -89,7 +89,7 @@ command /home [<text>]:
     trigger:
         if arg-1 is not set:
             teleport player to {home.1::%player's uuid%}
-			
+      
 command /gmc [<player>]:
     permission: "SCMC.gamemode.creative"
     permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
@@ -134,7 +134,7 @@ command /gmsp [<player>]:
             if arg-1 is not set:
                 set player's gamemode to spectator
                 send "&2&lSCMC &8» &aSet %player%'s gamemode to &aspectator!"
-				
+        
 command /clearchat:
    aliases: /cc
    permission: "SCMC.clearchat"
@@ -145,7 +145,7 @@ command /clearchat:
       broadcast "&6&m---------------------------------------------"
       broadcast "&2&lSCMC &8» &aChat Has Been Cleared By: &a%player%!"
       broadcast "&6&m---------------------------------------------"
-	  
+    
 command /mutechat [<text>]:
    permission: "SCMC.mutechat"
    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
@@ -168,7 +168,7 @@ on chat:
         else:
             cancel event
             send "&2&lSCMC &8» &aChat Was Muted You Cannot Speak."
-			
+      
 command /unmutechat [<text>]:
    permission: "SCMC.mutechat.unmute"
    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
@@ -191,328 +191,62 @@ command /i [<player>] <item> <integer>:
   trigger: 
     if arg-1 is set and arg-2 is set and arg-3 is set:
 
-
-# command /invsee [<player>]:
-#   permission: "SCMC.invsee"
-#   permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-#   aliases: /isee,
-#   trigger:
-#     if arg-1 is not set:
-#       send "&2&lSCMC &8» &cPlease Specify A Player!"
-#     else:
-#       open arg-1's inventory to player
-
 options:
-	#Do not change arg-player
-	guiname: &cInventory of &a%arg-player%...
-	Perm: skript.op
-	H: &a
-	C: &c
-	
+  #Do not change arg-player
+  guiname: &cInventory of &a%arg-player%...
+  Perm: skript.op
+  H: &a
+  C: &c
+  
 
 command /invsee [<player>]:
-	permission: {@Perm}
-	trigger:
-		open chest with 6 rows named "{@guiname}" for player
-		wait 1 tick
-		add player to {invsee::*}
-		add arg-1 to {inventoryseeing::*}
-		delete {inv::%argument-1%::*}
-		loop all items in argument-1's inventory:
-			add loop-item to {inv::%argument-1%::*}
-		loop 36 times:
-			set slot (loop-number - 1) of player's current inventory to {inv::%argument-1%::%loop-number%}
-		loop integers from 36 to 44:
-			format slot loop-integer of player with black stained glass pane named " " to be unstealable
-		if helmet slot of arg-player is not air:
-			format slot 47 of player with helmet slot of arg-player to be unstealable
-		else:
-			format slot 47 of player with glass pane named "{@C}Helmet" to be unstealable
-		if chestplate slot of arg-player is not air:
-			format slot 48 of player with chestplate slot of arg-player to be unstealable
-		else:
-			format slot 48 of player with glass pane named "{@C}Chestplate" to be unstealable
-		if legging slot of arg-player is not air:
-			format slot 50 of player with legging slot of arg-player to be unstealable
-		else:
-			format slot 50 of player with glass pane named "{@C}Leggings" to be unstealable
-		if boots slot of arg-player is not air:
-			format slot 51 of player with boots slot of arg-player to be unstealable
-		else:
-			format slot 51 of player with glass pane named "{@C}Boots" to be unstealable
-		loop integers from 45 to 46:
-			format slot loop-integer of player with black stained glass pane named " " to be unstealable
-		format slot 52 of player with black stained glass pane named " " to be unstealable
-		set {_hearts} to health of argument-1
-		set {_health} to ({_hearts}*10)
-		set {_food} to argument-1's food level
-		set {_exp} to level of argument-1
-		set {_location} to argument-1's location		
-		set {_potion::*} to all of the active potion effects on argument-1
+  permission: {@Perm}
+  trigger:
+    open chest with 6 rows named "{@guiname}" for player
+    wait 1 tick
+    add player to {invsee::*}
+    add arg-1 to {inventoryseeing::*}
+    delete {inv::%argument-1%::*}
+    loop all items in argument-1's inventory:
+      add loop-item to {inv::%argument-1%::*}
+    loop 36 times:
+      set slot (loop-number - 1) of player's current inventory to {inv::%argument-1%::%loop-number%}
+    loop integers from 36 to 44:
+      format slot loop-integer of player with black stained glass pane named " " to be unstealable
+    if helmet slot of arg-player is not air:
+      format slot 47 of player with helmet slot of arg-player to be unstealable
+    else:
+      format slot 47 of player with glass pane named "{@C}Helmet" to be unstealable
+    if chestplate slot of arg-player is not air:
+      format slot 48 of player with chestplate slot of arg-player to be unstealable
+    else:
+      format slot 48 of player with glass pane named "{@C}Chestplate" to be unstealable
+    if legging slot of arg-player is not air:
+      format slot 50 of player with legging slot of arg-player to be unstealable
+    else:
+      format slot 50 of player with glass pane named "{@C}Leggings" to be unstealable
+    if boots slot of arg-player is not air:
+      format slot 51 of player with boots slot of arg-player to be unstealable
+    else:
+      format slot 51 of player with glass pane named "{@C}Boots" to be unstealable
+    loop integers from 45 to 46:
+      format slot loop-integer of player with black stained glass pane named " " to be unstealable
+    format slot 52 of player with black stained glass pane named " " to be unstealable
+    set {_hearts} to health of argument-1
+    set {_health} to ({_hearts}*10)
+    set {_food} to argument-1's food level
+    set {_exp} to level of argument-1
+    set {_location} to argument-1's location    
+    set {_potion::*} to all of the active potion effects on argument-1
         format slot 45 of player with 
-		#format slot 53 of player with book named "&c%arg-1%" with lore " {@H}Health: {@C}%{_health}%%% || {@H}Hearts: {@C}%{_hearts}% || {@H}Hunger: {@C}%{_food}% || {@H}Levels: {@C}%{_exp}%  || {@H}Location: {@C}%{_location}% || {@H}Potion Effects: {@C}%{_potion::*}%" to be unstealable
-
-command /reportgui:
-command /setspawn:
-    permission: "SCMC.setspawn"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    trigger:
-        set {spawn} to location of player
-        send "&2&lSCMC &8» &aSuccessfully set the spawn to: &2%{spawn}%&a!"
-
-command /spawn:
-    permission: "SCMC.spawn"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    trigger:
-        teleport player to {spawn}
-        send "&2&lSCMC &8» &aSuccessfully teleported to spawn&a!"
-
-options:
-	noPerms: &2&lSCMC &8» &cYou Do Not Have Permission To Do That!
-	permission: SCMC.fly
-	permissionOther: SCMC.fly.others
-	msgenable: &2&lSCMC &8» &aYour &fFlight mode has been &aenabled!
-	msgenableother: &2&lSCMC &8» &a%arg-1%'s &fFlight mode has been &aenabled!
-	msgdisable: &2&lSCMC &8» &aYour &fFlight mode has been &cdisabled!
-	msgdisableother: &2&lSCMC &8» &a%arg-1%'s &fFlight mode has been &cdisabled!
-
-command /fly [<player>]:
-	permission: {@permission}
-	permission message: {@noPerms}
-	trigger:
-		if arg 1 is not set:
-			if player's flight mode is false:
-				set player's flight mode to true
-				send "{@msgenable}" to player
-				stop
-			else:
-				set player's flight mode to false
-				send "{@msgdisable}" to player
-				stop
-		else:
-			if player has permission "{@permissionOther}":
-				if arg-1's flight mode is false:
-					set arg-1's flight mode to true
-					send "{@msgenable}" to arg-1
-					send "{@msgenableother}" to player
-					stop
-				else:
-					set arg-1's flight mode to false
-					send "{@msgdisable}" to arg-1
-					send "{@msgdisableother}" to player
-					stop
-			else:
-				send "&fYou don't have the required permission:"
-				send "&f- &afly.others"
-				stop
-					
-command /broadcast [<text>]:
-    permission: "SCMC.broadcast"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    trigger:
-        broadcast "&b&lSCMC &8» %arg-1%"
-
-command /tp2p [<player>]:
-    permission: "SCMC.tp2p"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    executable by: players
-    trigger:
-        teleport the player to arg-1
-        send "&2&lSCMC &8» &aTeleported %arg-1% To %player%&a!"
-
-command /tpohere [<player>]:
-    permission: "SCMC.tpohere"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    executable by: players
-    trigger:
-        teleport arg-1 to player
-        send "&2&lSCMC &8» &aTeleported %player% To %arg-1%&a!"
-
-command /sethome [<text>]:
-    permission: "SCMC.sethome"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    executable by: players
-    trigger:
-        if {home.1::%player's uuid%} is not set:
-            set {home.1::%player's uuid%} to location of block at location
-            set {home.1::%player's uuid%} to arg-1 
-			
-command /home [<text>]:
-    permission: "SCMC.home"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    executable by: players
-    trigger:
-        if arg-1 is not set:
-            teleport player to {home.1::%player's uuid%}
-			
-command /gmc [<player>]:
-    permission: "SCMC.gamemode.creative"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    trigger:
-        if player's gamemode is creative:
-            send "&2&lSCMC &8» &cYou are already in creative!"
-            stop
-        else:
-            if arg-1 is set:
-                set arg-1's gamemode to creative
-                send "&2&lSCMC &8» &aSet %arg-1%'s gamemode to &acreative!"
-            if arg-1 is not set:
-                set player's gamemode to creative
-                send "&2&lSCMC &8» &aSet %player%'s gamemode to &acreative!"
-
-command /gms [<player>]:
-    permission: "SCMC.gamemode.survival"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    trigger:
-        if player's gamemode is survival:
-            send "&2&lSCMC &8» &cYou are already in survival!"
-            stop
-        else:
-            if arg-1 is set:
-                set arg-1's gamemode to survival
-                send "&2&lSCMC &8» &aSet %arg-1%'s gamemode to &asurvival!"
-            if arg-1 is not set:
-                set player's gamemode to survival
-                send "&2&lSCMC &8>> &aSet %player%'s gamemode to &asurvival!"
-
-command /gmsp [<player>]:
-    permission: "SCMC.gamemode.spectator"
-    permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-    trigger:
-        if player's gamemode is spectator:
-            send "&2&lSCMC &8» &cYou are already in spectator!"
-            stop
-        else:
-            if arg-1 is set:
-                set arg-1's gamemode to spectator
-                send "&2&lSCMC &8» &aSet %arg-1%'s gamemode to &aspectator!"
-            if arg-1 is not set:
-                set player's gamemode to spectator
-                send "&2&lSCMC &8» &aSet %player%'s gamemode to &aspectator!"
-				
-command /clearchat:
-   aliases: /cc
-   permission: "SCMC.clearchat"
-   permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-   trigger:
-      loop 300 times:
-         broadcast " "
-      broadcast "&6&m---------------------------------------------"
-      broadcast "&2&lSCMC &8» &aChat Has Been Cleared By: &a%player%!"
-      broadcast "&6&m---------------------------------------------"
-	  
-command /mutechat [<text>]:
-   permission: "SCMC.mutechat"
-   permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-   trigger:
-      if arg-1 is not set:
-         if {Globalchat} is not set:
-            set {Globalchat} to true
-            broadcast "&2&lSCMC &8» &aChat Has Been Muted By: &a%player%! &fFor Reason: &cNo Reason Given"
-            stop trigger
-      if arg-1 is set:
-         if {Globalchat} is not set:
-            set {Globalchat} to true
-            broadcast "&2&lSCMC &8» &aChat Has Been Muted By: &a%player%! &fFor Reason: &c%arg-1%"
-            stop trigger
-        
-on chat:
-    if {Globalchat} is true:
-        if player has permission "SCMC.mutechat.bypass":
-            stop trigger
-        else:
-            cancel event
-            send "&2&lSCMC &8» &aChat Was Muted You Cannot Speak."
-			
-command /unmutechat [<text>]:
-   permission: "SCMC.mutechat.unmute"
-   permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-   trigger:
-      if {Globalchat} is not set:
-         send "&2&lSCMC &8» &aChat Is Not Muted"
-         stop
-      if arg-1 is set:
-         if {Globalchat} is set:
-            clear {Globalchat}
-            broadcast "&2&lSCMC &8» &aChat Has Been Muted By: &a%player%! &fFor Reason: &c%arg-1%"
-      if arg-1 is not set:
-         if {Globalchat} is set:
-            clear {Globalchat}
-            broadcast "&2&lSCMC &8» &aChat Has Been Muted By: &a%player%! &fFor Reason: &cNo Reason Given"
-
-command /i [<player>] <item> <integer>:
-  permission: "SCMC.item"
-  permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-  trigger: 
-    if arg-1 is set and arg-2 is set and arg-3 is set:
-
-
-# command /invsee [<player>]:
-#   permission: "SCMC.invsee"
-#   permission message: "&2&lSCMC &8» &cYou Do Not Have Permission To Do That!"
-#   aliases: /isee,
-#   trigger:
-#     if arg-1 is not set:
-#       send "&2&lSCMC &8» &cPlease Specify A Player!"
-#     else:
-#       open arg-1's inventory to player
-
-options:
-	#Do not change arg-player
-	guiname: &cInventory of &a%arg-player%...
-	Perm: skript.op
-	H: &a
-	C: &c
-	
-
-command /invsee [<player>]:
-	permission: {@Perm}
-	trigger:
-		open chest with 6 rows named "{@guiname}" for player
-		wait 1 tick
-		add player to {invsee::*}
-		add arg-1 to {inventoryseeing::*}
-		delete {inv::%argument-1%::*}
-		loop all items in argument-1's inventory:
-			add loop-item to {inv::%argument-1%::*}
-		loop 36 times:
-			set slot (loop-number - 1) of player's current inventory to {inv::%argument-1%::%loop-number%}
-		loop integers from 36 to 44:
-			format slot loop-integer of player with black stained glass pane named " " to be unstealable
-		if helmet slot of arg-player is not air:
-			format slot 47 of player with helmet slot of arg-player to be unstealable
-		else:
-			format slot 47 of player with glass pane named "{@C}Helmet" to be unstealable
-		if chestplate slot of arg-player is not air:
-			format slot 48 of player with chestplate slot of arg-player to be unstealable
-		else:
-			format slot 48 of player with glass pane named "{@C}Chestplate" to be unstealable
-		if legging slot of arg-player is not air:
-			format slot 50 of player with legging slot of arg-player to be unstealable
-		else:
-			format slot 50 of player with glass pane named "{@C}Leggings" to be unstealable
-		if boots slot of arg-player is not air:
-			format slot 51 of player with boots slot of arg-player to be unstealable
-		else:
-			format slot 51 of player with glass pane named "{@C}Boots" to be unstealable
-		loop integers from 45 to 46:
-			format slot loop-integer of player with black stained glass pane named " " to be unstealable
-		format slot 52 of player with black stained glass pane named " " to be unstealable
-		set {_hearts} to health of argument-1
-		set {_health} to ({_hearts}*10)
-		set {_food} to argument-1's food level
-		set {_exp} to level of argument-1
-		set {_location} to argument-1's location		
-		set {_potion::*} to all of the active potion effects on argument-1
-        format slot 45 of player with 
-		#format slot 53 of player with book named "&c%arg-1%" with lore " {@H}Health: {@C}%{_health}%%% || {@H}Hearts: {@C}%{_hearts}% || {@H}Hunger: {@C}%{_food}% || {@H}Levels: {@C}%{_exp}%  || {@H}Location: {@C}%{_location}% || {@H}Potion Effects: {@C}%{_potion::*}%" to be unstealable
+    #format slot 53 of player with book named "&c%arg-1%" with lore " {@H}Health: {@C}%{_health}%%% || {@H}Hearts: {@C}%{_hearts}% || {@H}Hunger: {@C}%{_food}% || {@H}Levels: {@C}%{_exp}%  || {@H}Location: {@C}%{_location}% || {@H}Potion Effects: {@C}%{_potion::*}%" to be unstealable
 
 command /list [<text>]:
-	trigger:
-		set metadata tag "PListGUI" of player to chest inventory with 3 rows named "There is %number of all players% online players!"
-		set {_loop} to 0
-		loop all players:
-			set {_p} to "%loop-player%" parsed as player
-			set slot {_loop} of metadata tag "PListGUI" of player to skull of {_p} named "&6%loop-player%" with lore "&7World: %{_p}'s world%"
-			add 1 to {_loop}
-		open (metadata tag "PListGUI" of player) to player
+  trigger:
+    set metadata tag "PListGUI" of player to chest inventory with 3 rows named "There is %number of all players% online players!"
+    set {_loop} to 0
+    loop all players:
+      set {_p} to "%loop-player%" parsed as player
+      set slot {_loop} of metadata tag "PListGUI" of player to skull of {_p} named "&6%loop-player%" with lore "&7World: %{_p}'s world%"
+      add 1 to {_loop}
+    open (metadata tag "PListGUI" of player) to player
